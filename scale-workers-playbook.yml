@@ -1,0 +1,8 @@
+- name: Scale workers
+  hosts: jenkins
+  gather_facts: no # important
+  tasks:
+  - name: Scaling workers
+    shell: docker-compose -f /home/ubuntu/docker-compose.yml scale worker=15
+    become: yes
+    become_user: root

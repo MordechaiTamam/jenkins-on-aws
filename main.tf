@@ -43,7 +43,7 @@ data "aws_ami" "ubuntu-image" {
 
 resource "aws_instance" "myInstance" {
   ami           = "ami-04505e74c0741db8d"
-  instance_type = "m4.xlarge"
+  instance_type = "m4.4xlarge"
   key_name = "ubuntu-devops-experts"
   security_groups = ["${aws_security_group.allow_tls.name}"]
   tags = {
@@ -66,10 +66,10 @@ resource "aws_instance" "myInstance" {
 
 resource "local_file" "ip" {
     content  = <<-EOT
-    [web-servers]
+    [jenkins]
     ${aws_instance.myInstance.public_ip} ansible_ssh_user=ubuntu
     EOT
-    filename = "ip.yml"
+    filename = "hosts"
 }
 
 output "DNS" {

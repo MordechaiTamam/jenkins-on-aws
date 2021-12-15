@@ -1,0 +1,25 @@
+- name: Jenkins master setup
+  hosts: jenkins
+  gather_facts: true
+  tasks:
+  - name: copying file with playbook
+    copy:
+      src: docker-compose.yml
+      dest: /home/ubuntu
+      owner: ubuntu
+      group: ubuntu
+      mode: 0777
+    become: yes
+    become_user: root
+  - name: Running docker-compose
+    shell: docker-compose -f /home/ubuntu/docker-compose.yml up -d master
+    become: yes
+    become_user: root
+  - name: Get token
+    shell: docker exec ubuntu_master_1 cat /var/jenkins_home/secrets/initialAdminPassword
+    register: initialAdminPassword
+    become: yes
+    become_user: root
+  - name: initialAdminPassword
+    debug:
+      msg: "{{initialAdminPassword.stdout}}"

@@ -1,0 +1,2 @@
+terraform apply
+ansible-playbook simplest-playbook.yml -i ip.yml
